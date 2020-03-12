@@ -1,14 +1,14 @@
 from Game import Game
 from matplotlib import pyplot as plt
 
-numPlayers = 2
+numPlayers = 3
 turnCounts = []
 numGames = 10000
 
 for i in range(numGames):
     print(f"Starting game {i} with {numPlayers} players")
 
-    loveLetterGame = Game(1, numPlayers)
+    loveLetterGame = Game(0, numPlayers)
     loveLetterGame.start()
     turnCounts.append(loveLetterGame.numTurns)
 
