@@ -16,15 +16,17 @@ import random as r
 class Game():
     def __init__(self, numHumans, numComps):
         self.players = []
+        cardIds = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+        r.shuffle(cardIds)
         self.startingDeck = [
-           Gaurd(0), Gaurd(1), Gaurd(2), Gaurd(3), Gaurd(4),
-           Priest(5), Priest(6),
-           Baron(7), Baron(8),
-           Handmaid(9), Handmaid(10),
-           Prince(11), Prince(12),
-           King(13),
-           Countess(14),
-           Princess(15)]
+           Gaurd(cardIds[0]), Gaurd(cardIds[1]), Gaurd(cardIds[2]), Gaurd(cardIds[3]), Gaurd(cardIds[4]),
+           Priest(cardIds[5]), Priest(cardIds[6]),
+           Baron(cardIds[7]), Baron(cardIds[8]),
+           Handmaid(cardIds[9]), Handmaid(cardIds[10]),
+           Prince(cardIds[11]), Prince(cardIds[12]),
+           King(cardIds[13]),
+           Countess(cardIds[14]),
+           Princess(cardIds[15])]
 
         # self.startingDeck = [Gaurd(0), Priest(1), Handmaid(2), Princess(3)]
 

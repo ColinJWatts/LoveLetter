@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 
 numPlayers = 3
 turnCounts = []
-numGames = 10000
+numGames = 1
 
 for i in range(numGames):
     print(f"Starting game {i} with {numPlayers} players")

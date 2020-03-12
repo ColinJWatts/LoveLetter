@@ -1,6 +1,7 @@
 import util
 from Action import Action
 from Action import DummyAction
+from BeliefState import Filter
 
 class Card():
     def __init__(self, id):
@@ -60,6 +61,9 @@ class GaurdAction(Action):
             if stateCopy.playerCards[self.player][i].getValue() == 1 and not removed:
                 card = stateCopy.playerCards[self.player][i]
                 stateCopy.playerDiscards[self.player].append(card)
+                for i in range(len(stateCopy.players)):
+                    if i != self.player:
+                        stateCopy.players[i].updateBelief(IdentifyCardByID(card.id, card.getValue()))
                 removed = True
             else: 
                 newList.append(stateCopy.playerCards[self.player][i])
@@ -109,16 +113,27 @@ class PriestAction(Action):
             if stateCopy.playerCards[self.player][i].getValue() == 2 and not removed:
                 card = stateCopy.playerCards[self.player][i]
                 stateCopy.playerDiscards[self.player].append(card)
+                for i in range(len(stateCopy.players)):
+                    if i != self.player:
+                        stateCopy.players[i].updateBelief(IdentifyCardByID(card.id, card.getValue()))
                 removed = True
             else: 
                 newList.append(stateCopy.playerCards[self.player][i])
 
         stateCopy.playerCards[self.player] = newList
-        
-        print(f"You see: {stateCopy.playerCards[self.target][0].getName()}")
-
+        card = stateCopy.playerCards[self.target][0]
+        print(f"You see: {card.getName()}")
+        stateCopy.players[self.player].updateBelief(IdentifyCardByID(card.id, card.getValue()))
         stateCopy.checkEndConditions()
         return stateCopy
+
+class IdentifyCardByID(Filter):
+    def __init__(self, cardId, value):
+        self.id = cardId
+        self.val = value - 1
+
+    def test(self, particle):
+        return particle[self.id] == self.val
 
 class Baron(Card):
     def __init__(self, id):
@@ -152,6 +167,9 @@ class BaronAction(Action):
             if stateCopy.playerCards[self.player][i].getValue() == 3 and not removed:
                 card = stateCopy.playerCards[self.player][i]
                 stateCopy.playerDiscards[self.player].append(card)
+                for i in range(len(stateCopy.players)):
+                    if i != self.player:
+                        stateCopy.players[i].updateBelief(IdentifyCardByID(card.id, card.getValue()))
                 removed = True
             else: 
                 newList.append(stateCopy.playerCards[self.player][i])
@@ -203,6 +221,9 @@ class HandmaidAction(Action):
             if stateCopy.playerCards[self.player][i].getValue() == 4 and not removed:
                 card = stateCopy.playerCards[self.player][i]
                 stateCopy.playerDiscards[self.player].append(card)
+                for i in range(len(stateCopy.players)):
+                    if i != self.player:
+                        stateCopy.players[i].updateBelief(IdentifyCardByID(card.id, card.getValue()))
                 removed = True
             else: 
                 newList.append(stateCopy.playerCards[self.player][i])
@@ -246,6 +267,9 @@ class PrinceAction(Action):
             if stateCopy.playerCards[self.player][i].getValue() == 5 and not removed:
                 card = stateCopy.playerCards[self.player][i]
                 stateCopy.playerDiscards[self.player].append(card)
+                for i in range(len(stateCopy.players)):
+                    if i != self.player:
+                        stateCopy.players[i].updateBelief(IdentifyCardByID(card.id, card.getValue()))
                 removed = True
             else: 
                 newList.append(stateCopy.playerCards[self.player][i])
@@ -301,6 +325,9 @@ class KingAction(Action):
             if stateCopy.playerCards[self.player][i].getValue() == 6:
                 card = stateCopy.playerCards[self.player][i]
                 stateCopy.playerDiscards[self.player].append(card)
+                for i in range(len(stateCopy.players)):
+                    if i != self.player:
+                        stateCopy.players[i].updateBelief(IdentifyCardByID(card.id, card.getValue()))
             else: 
                 newList.append(stateCopy.playerCards[self.player][i])
 
@@ -350,6 +377,9 @@ class CountessAction(Action):
             if stateCopy.playerCards[self.player][i].getValue() == 7:
                 card = stateCopy.playerCards[self.player][i]
                 stateCopy.playerDiscards[self.player].append(card)
+                for i in range(len(stateCopy.players)):
+                    if i != self.player:
+                        stateCopy.players[i].updateBelief(IdentifyCardByID(card.id, card.getValue()))
             else: 
                 newList.append(stateCopy.playerCards[self.player][i])
 
@@ -385,7 +415,11 @@ class PrincessAction(Action):
     def execute(self, state):
         stateCopy = state.getCopy()
         while len(stateCopy.playerCards[self.player]) > 0:
-            stateCopy.playerDiscards[self.player].append(stateCopy.playerCards[self.player].pop())             
+            card = stateCopy.playerCards[self.player].pop()
+            for i in range(len(stateCopy.players)):
+                    if i != self.player:
+                        stateCopy.players[i].updateBelief(IdentifyCardByID(card.id, card.getValue()))
+            stateCopy.playerDiscards[self.player].append(card)             
 
         stateCopy.checkEndConditions()
 
