@@ -16,10 +16,14 @@ class GameState():
         # This is a space dedicated to the card that is set aside at the beginning of the game
         self.playerCards.append([])
 
+    def setPlayers(self, players):
+        self.players = players
+
     def getCopy(self):
         newState = GameState(self.numPlayers, [])
         newState.state = self.state
         newState.playerTurn = self.playerTurn
+        newState.players = self.players
 
         newState.deck = []
         for i in range(len(self.deck)):

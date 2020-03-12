@@ -10,6 +10,7 @@ from Card import King
 from Card import Countess
 from Card import Princess
 from GameState import GameState
+from BeliefState import Filter
 import random as r
         
 class Game():
@@ -29,17 +30,18 @@ class Game():
 
         deck = self.startingDeck.copy()
         r.shuffle(deck)
+        self.state = GameState(numHumans + numComps, deck)
         
         if numHumans + numComps > 4 or numHumans + numComps < 2: 
             util.raiseException("must have 2 to 4 players")
 
         for i in range(numHumans):
-            self.players.append(Player.createPlayer("human", i))
+            self.players.append(Player.createPlayer("human", i, self.state))
 
         for i in range(numComps):
-            self.players.append(Player.createPlayer("computer", i + numHumans))
+            self.players.append(Player.createPlayer("computer", i + numHumans, self.state))
 
-        self.state = GameState(numHumans + numComps, deck)
+        self.state.setPlayers(self.players)
 
     def start(self):
         
@@ -54,7 +56,7 @@ class Game():
                 drawAction = DrawCard(self.state.playerTurn)
                 self.state = drawAction.execute(self.state)
                 self.state = self.players[self.state.playerTurn].takeTurn(self.state)
-                self.numTurns+=1
+                self.numTurns += 1
 
             self.state.playerTurn = (self.state.playerTurn + 1) % self.state.numPlayers
                 
@@ -72,10 +74,19 @@ class DrawCard(Action):
         else:
             card = stateCopy.playerCards[stateCopy.numPlayers].pop()
 
-        stateCopy.playerCards[self.player].append(card)                
+        stateCopy.playerCards[self.player].append(card)
+        if self.player < len(stateCopy.players):
+            stateCopy.players[self.player].updateBelief(DrawFilter(card.id, card.getValue()))                
 
         if not self.setupAction:
             stateCopy.checkEndConditions()
 
         return stateCopy
                 
+class DrawFilter(Filter):
+    def __init__(self, cardId, value):
+        self.id = cardId
+        self.val = value - 1
+    
+    def test(self, particle):
+        return particle[self.id] == self.val

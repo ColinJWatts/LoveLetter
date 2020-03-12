@@ -1,16 +1,19 @@
 from Game import Game
+from matplotlib import pyplot as plt
 
-numPlayers = 3
-sumOfTurns = 0
+numPlayers = 2
+turnCounts = []
 numGames = 10000
 
 for i in range(numGames):
     print(f"Starting game {i} with {numPlayers} players")
 
-    loveLetterGame = Game(0, numPlayers)
+    loveLetterGame = Game(1, numPlayers)
     loveLetterGame.start()
-    sumOfTurns += loveLetterGame.numTurns
+    turnCounts.append(loveLetterGame.numTurns)
+
 
     print(f"Game Ended with status: {loveLetterGame.state.state}\n\n")
 
-print(f"Average Number of Turns Taken is: {sumOfTurns/numGames}")
+plt.hist(turnCounts, 15, [0,15])
+plt.show()

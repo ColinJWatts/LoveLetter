@@ -1,17 +1,21 @@
 import util
 import random
+from BeliefState import BeliefState
+
+numParticles = 1000
 
 class Player():
     """description of class"""
 
     @staticmethod
-    def createPlayer(playerType,  id):
+    def createPlayer(playerType,  id, initalState):
         if playerType == "human":
-            return HumanPlayer(id)
+            return HumanPlayer(id, initalState)
         elif playerType == "computer":
-            return ComputerPlayer(id)
+            return ComputerPlayer(id, initalState)
 
     def __init__(self):
+        self.belief = None
         util.raiseNotDefined()
 
     def takeTurn(self, state):
@@ -20,9 +24,14 @@ class Player():
     def observe(self, player, actionInfo):
         util.raiseNotDefined()
 
+    def updateBelief(self, filter):
+        self.belief.FilterParticles(filter)
+
 class HumanPlayer(Player):
-    def __init__(self, playerNumber):
+    def __init__(self, playerNumber, initalState):
         self.id = playerNumber
+        self.belief = BeliefState(initalState, numParticles)
+        print(f"Belief State for card 0: {self.belief.GetEstimateForCard(0)}")
         return 
 
     def takeTurn(self, state):
@@ -36,6 +45,12 @@ class HumanPlayer(Player):
             print(f"  {c.getName()}")
             if c.getName().lower() == "countess":
                 hasCountess = True
+
+        print("BELIEF STATE")
+        i = 0
+        for b in self.belief.belief:
+            print(f"{i}: {b}")
+            i += 1
 
         print("Type the name of the card you wish to play")
         cardName = ""
@@ -74,17 +89,22 @@ class HumanPlayer(Player):
 
         return action.execute(state)
 
-
 class ComputerPlayer(Player):
     
-    def __init__(self, player):
+    def __init__(self, player, initalState):
         self.id = player
+        self.belief = BeliefState(initalState, numParticles)
         return    
 
     def takeTurn(self, state):
         print(f"Player {self.id} takes their turn...")
         print(f"Player {self.id} has cards: ")
         
+        print("BELIEF STATE")
+        i = 0
+        for b in self.belief.belief:
+            print(f"{i}: {b}")
+            i += 1
         hasCountess = False
 
         for c in state.playerCards[self.id]:
