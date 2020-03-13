@@ -16,6 +16,7 @@ class Player():
 
     def __init__(self):
         self.belief = None
+        self.out = False
         util.raiseNotDefined()
 
     def takeTurn(self, state):
@@ -24,12 +25,17 @@ class Player():
     def observe(self, player, actionInfo):
         util.raiseNotDefined()
 
+    def setOut(self, out):
+        self.out = out
+
     def updateBelief(self, filter):
-        self.belief.FilterParticles(filter)
+        if not self.out
+            self.belief.FilterParticles(filter)
 
 class HumanPlayer(Player):
     def __init__(self, playerNumber, initalState):
         self.id = playerNumber
+        self.out = False
         self.belief = BeliefState(initalState, numParticles)
         print(f"Belief State for card 0: {self.belief.GetEstimateForCard(0)}")
         return 
@@ -93,6 +99,7 @@ class ComputerPlayer(Player):
     
     def __init__(self, player, initalState):
         self.id = player
+        self.out = False
         self.belief = BeliefState(initalState, numParticles)
         return    
 

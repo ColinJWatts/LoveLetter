@@ -74,6 +74,8 @@ class GameState():
         for i in range(self.numPlayers):
             if len(self.playerCards[i]) != 0:
                 remainingPlayers.append(i)
+            else:
+                self.players[i].setOut(True)
 
         if len(remainingPlayers) == 1:
             self.state = f"Player {remainingPlayers[0]} Wins!"

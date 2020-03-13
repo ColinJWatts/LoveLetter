@@ -59,8 +59,9 @@ class BeliefState():
             if filter.test(particle):
                 newSet.append(particle)
 
-        self.particleSet = newSet
-        self.UpdateAndResample()
+        if len(newSet) != len(self.particleSet):
+            self.particleSet = newSet
+            self.UpdateAndResample()
 
     def UpdateAndResample(self):
         for i in range(len(self.belief)):
