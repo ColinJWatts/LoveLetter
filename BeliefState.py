@@ -11,8 +11,10 @@ class BeliefState():
         self.initialDist = initialDist
 
         self.belief = []
+        self.numZeros = []
         for i in range(len(state.deck)):
             self.belief.append(initialDist)
+            self.numZeros.append(0)
 
         print("generating particles...")
         self.particleSet = []
@@ -66,6 +68,11 @@ class BeliefState():
     def UpdateAndResample(self):
         for i in range(len(self.belief)):
             self.belief[i] = self.GetEstimateForCard(i)
+            count = 0
+            for temp in self.belief[i]:
+                if temp == 0:
+                    count += 1
+            self.numZeros[i] = count
 
         self.particleSet = []
         for i in range(self.n):
@@ -104,5 +111,3 @@ class Filter():
     #default filter filters nothing
     def test(self, particle):
         return True
-
-        

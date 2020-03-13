@@ -51,6 +51,7 @@ class Game():
             drawAction = DrawCard(i, setupAction=True)
             self.state = drawAction.execute(self.state)
 
+        print(f"Set card {self.state.playerCards[self.state.numPlayers][0].id} aside")
         self.numTurns = 0
         while self.state.state == "ongoing":
             if len(self.state.playerCards[self.state.playerTurn]) > 0:

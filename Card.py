@@ -473,5 +473,3 @@ class PrincessAction(Action):
         stateCopy.checkEndConditions()
 
         return stateCopy
-
-        

@@ -2,7 +2,7 @@ import util
 import random
 from BeliefState import BeliefState
 
-numParticles = 1000
+numParticles = 5000
 
 class Player():
     """description of class"""
@@ -105,8 +105,6 @@ class ComputerPlayer(Player):
 
     def takeTurn(self, state):
         print(f"Player {self.id} takes their turn...")
-        print(f"Player {self.id} has cards: ")
-        
         print("BELIEF STATE")
         i = 0
         for b in self.belief.belief:
@@ -114,11 +112,17 @@ class ComputerPlayer(Player):
             i += 1
         hasCountess = False
 
+        print(f"Player {self.id} has cards: ")
+
         for c in state.playerCards[self.id]:
-            print(f"  {c.getName()}")
+            print(f"  {c.id}: {c.getName()}")
             if c.getName().lower() == "countess":
                 hasCountess = True
         
+        for i in range(state.numPlayers):
+            if i != self.id:
+                print(f"Player {i} has card ID: {state.playerCards[i][0].id}")
+
         # Choose an action
         action = random.randint(0, len(state.playerCards[self.id]) - 1)
 
