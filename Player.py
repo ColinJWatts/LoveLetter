@@ -29,7 +29,7 @@ class Player():
         self.out = out
 
     def updateBelief(self, filter):
-        if not self.out
+        if not self.out:
             self.belief.FilterParticles(filter)
 
 class HumanPlayer(Player):
