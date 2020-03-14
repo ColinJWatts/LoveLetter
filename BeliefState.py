@@ -24,25 +24,25 @@ class BeliefState():
             self.particleSet.append(self.GenerateParticle())
 
 
-    def GenerateParticle(self):
-        particle = []
-        for i in range(len(self.belief)):
-            particle.append(-1)
+    # def GenerateParticle(self):
+    #     particle = []
+    #     for i in range(len(self.belief)):
+    #         particle.append(-1)
 
-        original = self.initialDist
+    #     original = self.initialDist
         
-        valid = False
-        maxZeros = max(self.numZeros)
-        while not valid:
-            valid = True
-            while maxZeros > 0:
-                for i in range(len(self.numZeros)):
-                    if numZeros[i] == maxZeros:
+    #     valid = False
+    #     maxZeros = max(self.numZeros)
+    #     while not valid:
+    #         valid = True
+    #         while maxZeros > 0:
+    #             for i in range(len(self.numZeros)):
+    #                 if numZeros[i] == maxZeros:
 
 
-        return particle
+    #     return particle
 
-    def GenerateParticleV1(self):
+    def GenerateParticle(self):
         particle = []
 
         valid = False
