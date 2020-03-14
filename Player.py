@@ -120,7 +120,7 @@ class ComputerPlayer(Player):
                 hasCountess = True
         
         for i in range(state.numPlayers):
-            if i != self.id:
+            if i != self.id and len(state.playerCards[i] > 0):
                 print(f"Player {i} has card ID: {state.playerCards[i][0].id}")
 
         # Choose an action
